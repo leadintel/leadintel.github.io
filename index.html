@@ -442,12 +442,13 @@ const CONFIG = {
     label:'WhatsApp'
   },
   downloads: {
-    sampleCsvFileName:'leadintel-sample-dataset.csv',
-    sampleCsvButtonLabel:'Download Sample CSV',
-    samplePdfFileName:'leadintel-sample-report.pdf',
-    samplePdfButtonLabel:'Download Sample PDF',
-    samplePdfUrl:''
-  },
+  sampleCsvFileName:'leadintel-sample-dataset.csv',
+  sampleCsvButtonLabel:'Download Sample CSV',
+  sampleCsvUrl:'https://leadintel.github.io/files/sample_leads.csv',
+  samplePdfFileName:'leadintel-sample-report.pdf',
+  samplePdfButtonLabel:'Download Sample PDF',
+  samplePdfUrl:'https://leadintel.github.io/files/sample_pdf.pdf'
+  }
   sampleCSV: [
     {'Business Name':'Summit Roofing Partners','Industry':'Roofing','State':'Texas','Website':'www.summitroofingpartners.com','SEO Score':58,'AI Readiness':'Low','Core Web Vitals':'Needs Improvement','Opportunity Type':'Local SEO + Technical','Revenue Potential':'High','Lead Status':'Priority'},
     {'Business Name':'ClearFlow HVAC Solutions','Industry':'HVAC','State':'Florida','Website':'www.clearflowhvac.com','SEO Score':63,'AI Readiness':'Low','Core Web Vitals':'Poor','Opportunity Type':'Technical SEO + CRO','Revenue Potential':'High','Lead Status':'Qualified'},
@@ -650,10 +651,11 @@ function initTable(){
   document.getElementById('industryFilter').addEventListener('change', renderRows);
   document.querySelectorAll('#sampleTable th').forEach(th=>th.addEventListener('click',()=>{const k=th.dataset.key;if(sortKey===k){sortDir*=-1}else{sortKey=k;sortDir=1}renderRows()}));
   document.getElementById('downloadCsvBtn').addEventListener('click',()=>{
-    const keys=Object.keys(CONFIG.sampleCSV[0]);
-    const csv=[keys.join(',')].concat(CONFIG.sampleCSV.map(r=>keys.map(k=>`"${String(r[k]).replace(/"/g,'""')}"`).join(','))).join('\\n');
-    const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(CONFIG.downloads&&CONFIG.downloads.sampleCsvFileName)||'leadintel-sample-dataset.csv';a.click();URL.revokeObjectURL(a.href);
-  });
+  if(CONFIG.downloads&&CONFIG.downloads.sampleCsvUrl){const link=document.createElement('a');link.href=CONFIG.downloads.sampleCsvUrl;link.download=(CONFIG.downloads&&CONFIG.downloads.sampleCsvFileName)||'leadintel-sample-dataset.csv';link.target='_blank';link.rel='noopener';link.click();return;}
+  const keys=Object.keys(CONFIG.sampleCSV[0]);
+  const csv=[keys.join(',')].concat(CONFIG.sampleCSV.map(r=>keys.map(k=>`"${String(r[k]).replace(/"/g,'""')}"`).join(','))).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(CONFIG.downloads&&CONFIG.downloads.sampleCsvFileName)||'leadintel-sample-dataset.csv';a.click();URL.revokeObjectURL(a.href);
+});
 }
 function initCounters(){
   const counters=document.querySelectorAll('.counter');
