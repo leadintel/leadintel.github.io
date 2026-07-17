@@ -793,5 +793,11 @@ window.addEventListener('load', function(){
   setMeta(); render(); ensureUiChrome(); initTheme(); initTable(); initCounters(); initFaq(); initTyping(); initForm(); initMotion(); initLoader(); initGlow(); initDownloads(); initScrollProgress(); initBackToTop(); initPremiumHover(); initTiltCards(); initInteractiveMedia(); initParticles(); initCustomCursor(); initReport();
 });
 </script>
+<script>
+window.addEventListener('load', function(){
+  if(window.AOS){ AOS.init({duration:700, once:true, offset:40}); }
+  document.querySelectorAll('[data-aos]').forEach(el=>el.classList.add('aos-animate'));
+});
+</script>
 </body>
 </html>
